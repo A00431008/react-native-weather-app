@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TextInput, Button, ActivityIndicator } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import {getWeatherData, getCityCoordinates} from '../API/ThirdPartyApi';
@@ -10,6 +10,12 @@ const SearchScreen = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+
+  useEffect(() => {
+    if (weatherData) {
+      handleSaveLocation();
+    }
+  }, [weatherData]);
 
   const handleSearch = async() => {
     try {
@@ -35,8 +41,8 @@ const SearchScreen = () => {
       );
 
       tx.executeSql(
-        'SELECT COUNT(*) as count FROM locations', [], (_,results => {
-          const count = results.rows.item(0).count();
+        'SELECT COUNT(*) as count FROM locations', [], (_,results) => {
+          const count = results.rows.item(0).count;
 
           if (count < 4) {
             insertLocationToDB();
@@ -44,7 +50,6 @@ const SearchScreen = () => {
             console.log('Cannot save more than 4 locations!');
           }
         })
-      )
     });
   }
 
@@ -76,12 +81,7 @@ const SearchScreen = () => {
       />
       <Button title="Search" onPress={handleSearch} />
       {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
-      {/* {coordinate && (
-        <View>
-          <WeatherDisplay location={coordinate} />
-          <Button title="SaveLocation" onPress={handleSaveLocation} />
-        </View>
-      )} */}
+      
     </View>
   );
 };

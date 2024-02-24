@@ -1,7 +1,7 @@
 // Fetch the data from API and return it
-export const getWeatherData = async (lat, lon) => {
+export const getWeatherData = async (lat, long) => {
     try {
-        const URL = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m`;
+        const URL = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m`;
         const res = await fetch(URL);
         if (!res.ok) {
           throw new Error("Failed to fetch weather data")

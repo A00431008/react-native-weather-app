@@ -19,7 +19,6 @@ const SearchScreen = () => {
 
       const fetchedData = await getCityCoordinates(city);
       const {latitude, longitude} = fetchedData.results[0];
-      // const {latitude, longitude} = fetchedData;
       
       const data = await getWeatherData(latitude, longitude);
       setWeatherData(data);
@@ -97,7 +96,7 @@ const SearchScreen = () => {
           {weatherData && (
             <>
               <Button mode="contained" onPress={() => handleSaveLocation()} style={{ marginTop:10}}>Save this Location</Button>
-              <Button mode="contained" onPress={() => setWeatherData(null)} style={{ marginTop:10}}>Clear Location</Button>
+              <Button mode="contained" onPress={() => {setWeatherData(null);setCity('')}} style={{ marginTop:10}}>Clear Location</Button>
             </>
           )}
         </Card.Content>

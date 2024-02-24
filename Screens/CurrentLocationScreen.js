@@ -33,7 +33,7 @@ const CurrentLocationScreen = () => {
   }
 
   return (
-    <View>
+    <View style={{flex: 1, padding: 16, justifyContent: 'center'}}>
       <WeatherDisplay lat={location.coords.latitude} long={location.coords.longitude} />
     </View>
   );

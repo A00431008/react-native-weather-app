@@ -67,9 +67,30 @@ const SearchScreen = () => {
         [city, weatherData.latitude, weatherData.longitude],
         (tx, results) => {
           if (results.rowsAffected > 0) {
+            Alert.alert(
+              'Success',
+              'Location saved successfully !!!',
+              [
+                {
+                  text: 'Ok',
+                  style: 'cancel',
+                },
+              ],
+              { cancelable: false }
+            );
             console.log('Location saved successfully');
           } else {
-            console.log('Failed to save location');
+            Alert.alert(
+              'Success',
+              'Location saved successfully !!!',
+              [
+                {
+                  text: 'Ok',
+                  style: 'cancel',
+                },
+              ],
+              { cancelable: false }
+            );
           }
         }
       );

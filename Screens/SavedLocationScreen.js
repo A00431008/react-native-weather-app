@@ -3,10 +3,10 @@ import { View,
         Text, 
         FlatList, 
         TouchableOpacity, 
-        Button, 
         Alert,
-        Modal,
-        StyleSheet } from 'react-native';
+        Modal } from 'react-native';
+import { Button, Card, Title, Paragraph } from 'react-native-paper';
+
 import * as SQLite from 'expo-sqlite';
 
 const db = SQLite.openDatabase('weatherApp.db');
@@ -21,6 +21,7 @@ const SavedLocationScreen = () => {
     fetchSavedLocations();
   });
 
+  // function to get saved locations from database
   const fetchSavedLocations = () => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -34,6 +35,7 @@ const SavedLocationScreen = () => {
     });
   };
 
+  // function to remove location from database
   const removeLocation = (id) => {
     // Remove the location from the database
     db.transaction((tx) => {
@@ -48,6 +50,7 @@ const SavedLocationScreen = () => {
     });
   };
 
+  // Alert to confirm removal before deleting from database
   const confirmRemoveLocation = (id) => {
     Alert.alert(
       'Remove Location',
@@ -67,36 +70,57 @@ const SavedLocationScreen = () => {
   };
 
 
+  // render function to render each item of the database
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => handleItemClick(item.latitude, item.longitude)}>
-      <View>
-        <Text>{item.city}</Text>
-        <Text>{`Latitude: ${item.latitude}, Longitude: ${item.longitude}`}</Text>
-        <Button title="Remove" onPress={() => confirmRemoveLocation(item.id)} />
-      </View>
-    </TouchableOpacity>
+    
+      <Card style={{ margin: 8, padding: 16 }}>
+        <Card.Content>
+          <TouchableOpacity onPress={() => handleItemClick(item.latitude, item.longitude)}>
+            <Title>{item.city}</Title>
+            <Paragraph>{`Latitude: ${item.latitude}, Longitude: ${item.longitude}`}</Paragraph>
+          </TouchableOpacity>
+          <Button mode="contained" onPress={() => confirmRemoveLocation(item.id)} style={{ marginTop: 10 }}>
+            Remove
+          </Button>
+        </Card.Content>
+      </Card>
   );
 
+  // Function to display weather for saved locations when they are clicked
   const handleItemClick = (lat, lon) => {
     setSelectedLocation()
   }
 
 
-
-  return (
-    <View>
-      <Text> Saved Locations</Text>
-      {savedLocations.length === 0 ? (
-        <Text>No saved locations yet.</Text>
-      ) : (
-        <FlatList
-          data={savedLocations}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-        />
-      )}
-    </View>
-  );
+// UI that is returned
+return (
+  <View style={{ flex: 1, padding: 16, justifyContent: 'center' }}>
+    {savedLocations.length === 0 ? (
+      <Text style={{ fontSize: 16, textAlign: 'center', marginBottom: 20 }}>
+        No saved locations yet.
+      </Text>
+    ) : (
+      <FlatList
+        data={savedLocations}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+      />
+    )}
+  </View>
+);
+  // return (
+  //   <View>
+  //     {savedLocations.length === 0 ? (
+  //       <Text>No saved locations yet.</Text>
+  //     ) : (
+  //       <FlatList
+  //         data={savedLocations}
+  //         keyExtractor={(item) => item.id.toString()}
+  //         renderItem={renderItem}
+  //       />
+  //     )}
+  //   </View>
+  // );
 
 };
 

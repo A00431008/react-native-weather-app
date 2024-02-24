@@ -1,60 +1,70 @@
 import React, {useState} from 'react';
-import { View, Text, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
-import * as Location from 'expo-location';
+import { View, Text, TextInput, Button, ActivityIndicator } from 'react-native';
 import * as SQLite from 'expo-sqlite';
+import {getWeatherData, getCityCoordinates} from '../API/ThirdPartyApi';
 
 const db = SQLite.openDatabase('weatherApp.db');
 
 const SearchScreen = () => {
   const [city, setCity] = useState('');
-  const [coordinate, setCoordinate] = useState(null);
+  const [weatherData, setWeatherData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
 
   const handleSearch = async() => {
     try {
       setIsLoading(true);
 
-
-    } catch (error) {
-
+      const fetchedData = await getCityCoordinates(city);
+      const {latitude, longitude} = fetchedData.results[0];
+      
+      const data = await getWeatherData(latitude, longitude);
+      setWeatherData(data);
+      
+    } catch (err) {
+      throw err;
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // const handleSaveLocation = () => {
-  //   if (!location) {
-  //     Alert.alert('Warning', 'Please search for a location before saving.');
-  //     return;
-  //   }
+  const handleSaveLocation = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'CREATE TABLE IF NOT EXISTS locations (id INTEGER PRIMARY KEY AUTOINCREMENT, city TEXT, latitude REAL, longitude REAL);'
+      );
 
-  //   // Save the location in SQLite database
-  //   db.transaction(
-  //     (tx) => {
-  //       tx.executeSql('SELECT COUNT(*) as count FROM saved_locations', [], (_, { rows }) => {
-  //         const count = rows.item(0).count;
-          
-  //         // Check if saved locations are more than 4
-  //         if (count >= 4) {
-  //           Alert.alert('Warning', 'You can only save up to 4 locations.');
-  //         } else {
-  //           // If not then save the location in SQLite database
-  //           tx.executeSql(
-  //             'INSERT INTO saved_locations (city, latitude, longitude) VALUES (?, ?, ?)',
-  //             [location.city, location.latitude, location.longitude],
-  //             (_, { rows }) => {
-  //               Alert.alert('Success', 'Location saved successfully.');
-  //             },
-  //             (_, error) => {
-  //               console.error('Error saving location:', error);
-  //               Alert.alert('Error', 'Failed to save location. Please try again.');
-  //             }
-  //           );
-  //         }
-  //       });
-  //     },
-  //     null,
-  //     null
-  //   );
-  // };
+      tx.executeSql(
+        'SELECT COUNT(*) as count FROM locations', [], (_,results => {
+          const count = results.rows.item(0).count();
+
+          if (count < 4) {
+            insertLocationToDB();
+          } else {
+            console.log('Cannot save more than 4 locations!');
+          }
+        })
+      )
+    });
+  }
+
+  const insertLocationToDB = () => {
+    // Insert the location data into the SQLite database
+    db.transaction((tx) => {
+      tx.executeSql(
+        'INSERT INTO locations (city, latitude, longitude) VALUES (?, ?, ?);',
+        [city, weatherData.latitude, weatherData.longitude],
+        (tx, results) => {
+          if (results.rowsAffected > 0) {
+            console.log('Location saved successfully');
+          } else {
+            console.log('Failed to save location');
+          }
+        }
+      );
+    });
+  };
+
 
   return (
     <View>
@@ -66,12 +76,12 @@ const SearchScreen = () => {
       />
       <Button title="Search" onPress={handleSearch} />
       {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
-      {coordinate && (
+      {/* {coordinate && (
         <View>
           <WeatherDisplay location={coordinate} />
           <Button title="SaveLocation" onPress={handleSaveLocation} />
         </View>
-      )}
+      )} */}
     </View>
   );
 };

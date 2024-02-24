@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from 'react';
 import {View, Text, ActivityIndicator, Alert} from 'react-native'  ;
 import * as Location from 'expo-location';
-import {getWeatherData} from '../API/api';
+import {getWeatherData} from '../API/ThirdPartyApi';
 
 const CurrentLocationScreen = () => {
   const [weatherData, setWeatherData] = useState('null');
@@ -22,7 +22,6 @@ const CurrentLocationScreen = () => {
       // get weather data for current location
       const data = await getWeatherData(location.coords.latitude, location.coords.longitude);
       setWeatherData(data);
-      console.error(data)
 
       
     })();
@@ -32,6 +31,7 @@ const CurrentLocationScreen = () => {
     return (
       <View>
         <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading...</Text>
       </View>
     );
   }
@@ -39,13 +39,6 @@ const CurrentLocationScreen = () => {
   return (
     <View>
       <Text>{weatherData.latitude}</Text>
-      {/* <Text>Weather at your Location</Text>
-      <Text>
-        Current Location: {location.coords.latitude}, {location.coords.longitude}
-      </Text>
-      <Text>Temperature: {weatherData.current_weather.temperature_2m}°C</Text>
-      <Text>Precipitation: {weatherData.current_weather_details.precipitation}mm</Text>
-      <Text>Wind Speed: {weatherData.current_weather_details.wind_speed_10m}m/s</Text> */}
     </View>
   );
 };

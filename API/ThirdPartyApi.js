@@ -14,10 +14,10 @@ export const getWeatherData = async (lat, lon) => {
 }
 
 
-export const getLocationData = async (city) => {
+export const getCityCoordinates = async (city) => {
     try{
-        const URL = `https://geocoding-api.open-meteo.com/v1/search?name=${city}`;
-        const res = await fetch(URL);
+        const geoURL = `https://geocoding-api.open-meteo.com/v1/search?name=${city}`;
+        const res = await fetch(geoURL);
         const locationData = await res.json();
         return locationData;
     } catch (err) {

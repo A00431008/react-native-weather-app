@@ -3,16 +3,15 @@ import { View,
         Text, 
         FlatList, 
         TouchableOpacity, 
-        Alert,
-        Modal } from 'react-native';
+        Alert } from 'react-native';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
+import WeatherDisplay from '../Components/WeatherDisplay';
 
 import * as SQLite from 'expo-sqlite';
 
 const db = SQLite.openDatabase('weatherApp.db');
 
 const SavedLocationScreen = () => {
-  const [modalVisible, setModalVisible] = useState(false);
   const [savedLocations, setSavedLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
 
@@ -88,12 +87,17 @@ const SavedLocationScreen = () => {
 
   // Function to display weather for saved locations when they are clicked
   const handleItemClick = (lat, lon) => {
-    setSelectedLocation()
+    setSelectedLocation({"latitude": lat, "longitude": lon})
   }
 
 
 // UI that is returned
 return (
+  <>
+  {/* Display weather Data for selected saved location */}
+  {selectedLocation && <WeatherDisplay lat={selectedLocation.latitude} long={selectedLocation.longitude}/>}
+  
+  {/* LIst of saved locations */}
   <View style={{ flex: 1, padding: 16, justifyContent: 'center' }}>
     {savedLocations.length === 0 ? (
       <Text style={{ fontSize: 16, textAlign: 'center', marginBottom: 20 }}>
@@ -107,21 +111,8 @@ return (
       />
     )}
   </View>
+  </>
 );
-  // return (
-  //   <View>
-  //     {savedLocations.length === 0 ? (
-  //       <Text>No saved locations yet.</Text>
-  //     ) : (
-  //       <FlatList
-  //         data={savedLocations}
-  //         keyExtractor={(item) => item.id.toString()}
-  //         renderItem={renderItem}
-  //       />
-  //     )}
-  //   </View>
-  // );
-
 };
 
 export default SavedLocationScreen;

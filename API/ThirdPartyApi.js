@@ -1,39 +1,3 @@
-// const weatherData = {
-//   "latitude":24.9,"longitude":25.100002,
-//   "generationtime_ms":0.03802776336669922,
-//   "utc_offset_seconds":0,
-//   "timezone":"GMT",
-//   "timezone_abbreviation":"GMT",
-//   "elevation":473.0,
-//   "current_units":
-//       {
-//           "time":"iso8601",
-//           "temperature_2m":"°C",
-//           "apparent_temperature":"°C",
-//           "precipitation": "mm",
-//           "relative_humidity_2m": "%",
-//           "wind_speed_10m": "m/s",
-//           "wind_direction_10m": "°"
-//       },
-//   "current": 
-//       {
-//           "time":"2024-02-24T00:00",
-//           "temperature_2m":7.5,
-//           "apparent_temperature": 6.1,
-//           "precipitation": 2.0,
-//           "relative_humidity_2m": 94,
-//           "wind_speed": 16,
-//           "wind_direction_10m": 163,
-//       }
-// }
-
-// const locationData = {
-//   "results" : [{
-//     "latitude" : 24.9,
-//     "longitude": 25.00002
-//   }]
-// }
-
 // Fetch the data from API and return it
 export const getWeatherData = async (lat, long) => {
     try {

@@ -1,24 +1,27 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, ActivityIndicator} from 'react-native'  ;
+import { ActivityIndicator} from 'react-native'  ;
 import { Card, Title, Paragraph } from 'react-native-paper';
 import {getWeatherData} from '../API/ThirdPartyApi';
 
 
 const WeatherDisplay = ({lat, long}) => {
+    // State variables
     const [weatherData, setWeatherData] = useState(null)
     const [isLoading, setIsLoading] = useState(true);
 
+    // Sets weatherData
     const setData = async() => {
         const data = await getWeatherData(lat, long);
             setWeatherData(data);
             setIsLoading(false);
     }
 
+    // Use Effect Hook to set data when component mounts
     useEffect(() => {
         setData();
     }, []);
 
-
+    // If data is loading or awaiting from API this mounts
     if (isLoading) {
         return (
           <Card style={{ padding: 10, margin: 10 }}>
@@ -32,6 +35,7 @@ const WeatherDisplay = ({lat, long}) => {
         );
       }
 
+    // if data has already loaded to state then it displays
     return (
         <Card style={{ padding: 10, margin: 10 }}>
       <Card.Content>

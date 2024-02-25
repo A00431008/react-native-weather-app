@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { ActivityIndicator, ScrollView, Alert } from 'react-native';
-import * as SQLite from 'expo-sqlite';
 import {getWeatherData, getCityCoordinates} from '../API/ThirdPartyApi';
 import { Card, Title, TextInput as PaperTextInput, Button } from 'react-native-paper';
 import WeatherDisplay from '../Components/WeatherDisplay';
 
-
+// Open Database
+import * as SQLite from 'expo-sqlite';
 const db = SQLite.openDatabase('weatherApp.db');
 
 const SearchScreen = () => {
@@ -13,6 +13,7 @@ const SearchScreen = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Function to handle search when search button is pushed
   const handleSearch = async() => {
     try {
       setIsLoading(true);
@@ -30,6 +31,7 @@ const SearchScreen = () => {
     }
   };
 
+  // Function to save location to the database
   const handleSaveLocation = () => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -40,9 +42,11 @@ const SearchScreen = () => {
         'SELECT COUNT(*) as count FROM locations', [], (_,results) => {
           const count = results.rows.item(0).count;
 
+          // Insert to database only if there are less than 4 items in the database
           if (count < 4) {
             insertLocationToDB();
           } else {
+            // if database has already 4 items then alert the user
             Alert.alert(
               'Memory Full',
               'Unable to save more than 4 locations. Please delete at least one saved location to save more locations.',
@@ -59,6 +63,7 @@ const SearchScreen = () => {
     });
   }
 
+  // function to insert into database called from handleSaveLocation()
   const insertLocationToDB = () => {
     // Insert the location data into the SQLite database
     db.transaction((tx) => {
@@ -66,6 +71,7 @@ const SearchScreen = () => {
         'INSERT INTO locations (city, latitude, longitude) VALUES (?, ?, ?);',
         [city, weatherData.latitude, weatherData.longitude],
         (tx, results) => {
+          // Let user know if it has been saved successfully
           if (results.rowsAffected > 0) {
             Alert.alert(
               'Success',

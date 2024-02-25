@@ -7,8 +7,8 @@ import { View,
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import WeatherDisplay from '../Components/WeatherDisplay';
 
+// Open database
 import * as SQLite from 'expo-sqlite';
-
 const db = SQLite.openDatabase('weatherApp.db');
 
 const SavedLocationScreen = () => {

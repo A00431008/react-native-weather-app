@@ -1,15 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from "@react-navigation/native";
 import { Header } from "@rneui/base";
 import { MaterialIcons } from '@expo/vector-icons';
 
-
+// component imports
 import CurrentLocationScreen from './Screens/CurrentLocationScreen';
 import SearchScreen from './Screens/SearchScreen';
 import SavedLocationScreen from './Screens/SavedLocationScreen';
 
+// Navigator Tab
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -57,11 +57,4 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+

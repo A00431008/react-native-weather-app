@@ -8,7 +8,7 @@ The app uses expo and react native with expo location to integrate location serv
  - screen 2: Allows user to search for a location and view weather data and save it if the user wants
      Note: User can only save up to 4 locations and it won't allow further saving of locations.
  - screen 3: Allows user to view saved locations, delete saved locations and view weather data for saved location
-   Note: The app has a small glitch where it will not change locations once one of the locations has been chosed so user will need to close and open the app for now.
+   
 
 ## Instructions for setting up and running App
  - Clone the repo to your local machine

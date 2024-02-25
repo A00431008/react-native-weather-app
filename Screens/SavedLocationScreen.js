@@ -95,9 +95,18 @@ const SavedLocationScreen = () => {
 return (
   <>
   {/* Display weather Data for selected saved location */}
-  {selectedLocation && <WeatherDisplay lat={selectedLocation.latitude} long={selectedLocation.longitude}/>}
+  {selectedLocation && (
+    <View>
+      <WeatherDisplay lat={selectedLocation.latitude} long={selectedLocation.longitude}/>
+      <Button mode="contained" onPress={() => setSelectedLocation(null)} style={{ marginTop: 10 }}>
+            Back
+      </Button>
+    </View>
+    
+  )}
   
   {/* LIst of saved locations */}
+  {!selectedLocation && (
   <View style={{ flex: 1, padding: 16, justifyContent: 'center' }}>
     {savedLocations.length === 0 ? (
       <Text style={{ fontSize: 16, textAlign: 'center', marginBottom: 20 }}>
@@ -111,6 +120,7 @@ return (
       />
     )}
   </View>
+  )}
   </>
 );
 };

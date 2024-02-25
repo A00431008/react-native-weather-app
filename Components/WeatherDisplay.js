@@ -25,10 +25,14 @@ const WeatherDisplay = ({lat, long}) => {
 
     if (isLoading) {
         return (
-          <View>
-            <ActivityIndicator size="large" color="#0000ff" />
-            <Text>Loading...</Text>
-          </View>
+          <Card style={{ padding: 10, margin: 10 }}>
+            <Card.Content>
+              <ActivityIndicator size="large" color="#0000ff" />
+              <Title>
+                Loading...
+              </Title>
+            </Card.Content>
+          </Card>
         );
       }
 

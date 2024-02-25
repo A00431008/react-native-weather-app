@@ -122,7 +122,7 @@ const SearchScreen = () => {
           )}
         </Card.Content>
       </Card>
-      {weatherData && <WeatherDisplay />}
+      {weatherData && <WeatherDisplay lat={weatherData.latitude} long={weatherData.longitude} />}
     </ScrollView>
     
   );

@@ -18,10 +18,6 @@ const WeatherDisplay = ({lat, long}) => {
         setData();
     }, []);
 
-    const handleRefresh = () => {
-        setData();
-    }
-
 
     if (isLoading) {
         return (
@@ -52,7 +48,7 @@ const WeatherDisplay = ({lat, long}) => {
         <Paragraph>Wind Direction: {weatherData.current.wind_direction_10m} {weatherData.current_units.wind_direction_10m}</Paragraph>
 
         <Title>Time:</Title>
-        <Paragraph>{weatherData.current.time}</Paragraph>
+        <Paragraph>{weatherData.current.time} {weatherData.timezone_abbreviation}</Paragraph>
       </Card.Content>
     </Card>
     );

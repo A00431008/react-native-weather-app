@@ -2,8 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from "@react-navigation/native";
-import { Header, Icon } from "@rneui/base";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Header } from "@rneui/base";
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 import CurrentLocationScreen from './Screens/CurrentLocationScreen';
 import SearchScreen from './Screens/SearchScreen';
@@ -32,17 +33,23 @@ export default function App() {
             <Tab.Screen 
                 name = "Home"
                 component={CurrentLocationScreen}
-                options = {{ title: 'Current Location'}}
+                options = {{ title: 'Current Location', tabBarIcon: ({ color }) => (
+                  <MaterialIcons name="location-on" color={color} size={26} />
+                ),}}
             />
             <Tab.Screen 
                 name = "Search by Location"
                 component={SearchScreen}
-                options = {{ title: 'Search Location'}}
+                options = {{ title: 'Search Location', tabBarIcon: ({ color }) => (
+                  <MaterialIcons name="search" color={color} size={26} />
+                ),}}
             />
             <Tab.Screen 
                 name = "Saved Locations"
                 component={SavedLocationScreen}
-                options = {{ title: 'Saved Locations'}}
+                options = {{ title: 'Saved Locations', tabBarIcon: ({ color }) => (
+                  <MaterialIcons name="folder" color={color} size={26} />
+                ),}}
             />
         </Tab.Navigator>
     </NavigationContainer>

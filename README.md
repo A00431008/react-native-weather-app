@@ -17,5 +17,5 @@ The app uses expo and react native with expo location to integrate location serv
  - install expo cli "npm install -g expo-cli"
  - install expo-go on your phone
  - Run application with "npx expo start"
- - Scan the qr code with your phone's calendar
+ - Scan the qr code with your phone's camera
  - Once the application opens, allow it to use location services while using the app
